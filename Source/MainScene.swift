@@ -21,6 +21,17 @@ class MainScene: CCNode {
     // tracks if game is over, makes restart button visible.
     var gameOver = false;
     
+    // keeps track of time left for user to make a move. Must gradually increase the decreasing speed.
+    var timeLeft: Float = 5 {
+        didSet {
+            self.timeLeft = max(min(self.timeLeft, 10), 0); // clamps time between 0 and 10
+            self.lifeBar.scaleX = self.timeLeft / Float(10); // sets scaleX of lifeBar as a percentage of time over 10 (height of tower)
+        }
+    }
+    
+    // keeps track of score.
+    var score = 0;
+    
     
     /* code connections; variables must have 'weak' before being declared because they are only pointing to a reference of the object, not storing the actual data. */
     
@@ -33,6 +44,11 @@ class MainScene: CCNode {
     // restart button, initially invisible.
     weak var restartButton:CCButton!;
     
+    // the red part of the life bar, the one which keeps track of the life remaining and shows it to the user.
+    weak var lifeBar:CCSprite!;
+    
+    // displays score
+    weak var scoreLabel:CCLabelTTF!;
     
     /** methods **/
     
@@ -61,6 +77,15 @@ class MainScene: CCNode {
     func restart() {
         var scene = CCBReader.loadAsScene("MainScene")
         CCDirector.sharedDirector().presentScene(scene)
+    }
+    
+    // executed at every frame, updates time and checks if time has ran out
+    override func update(delta: CCTime) {
+        if (self.gameOver) { return; };
+        self.timeLeft -= Float(delta)
+        if (self.timeLeft == 0) { // safe to check for 0 equality after clamping
+            self.triggerGameOver();
+        }
     }
     
     /* iOS methods */
@@ -95,6 +120,9 @@ class MainScene: CCNode {
             CGPoint(x: 0, y: piece.contentSize.height));
         
         self.pieceIndex = (pieceIndex + 1) % 10; // modulo pieces.count
+        self.timeLeft += 0.25; // adds to time remaining until gameOver
+        self.score += 1;
+        self.scoreLabel.string = "\(self.score)";
     }
     
     // detects if character is on the same side as a chopstick, which would make the game be over.
