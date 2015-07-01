@@ -6,4 +6,21 @@
 //  Copyright (c) 2015 Apportable. All rights reserved.
 //
 
-import Foundation
+import Foundation;
+
+class Character:CCSprite {
+    /*** methods ***/
+    
+    /* cocos2d methods */
+    
+    // move character left
+    func left() {
+        // scaleX sets the position of the sprite in relation to its anchor point. The character's anchor point is (1,0) inside a square which has a width with half the screen size, so the anchor point is centered in the screen center. Scaling the character's "x" position by -1, it would be placed in the opposite field of where it originally is, having the anchor point as an origin reference.
+        self.scaleX = 1;
+    }
+    
+    // move character right
+    func right() {
+        self.scaleX = -1;
+    }
+}
