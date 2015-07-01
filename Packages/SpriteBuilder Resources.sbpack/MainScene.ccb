@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>214</integer>
+	<integer>226</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -820,7 +820,7 @@
 						<key>value</key>
 						<array>
 							<real>0.5</real>
-							<real>-225</real>
+							<real>0.0</real>
 							<integer>1</integer>
 							<integer>2</integer>
 							<integer>0</integer>
@@ -907,7 +907,7 @@
 								<key>value</key>
 								<array>
 									<real>0.5</real>
-									<real>-30</real>
+									<real>-40</real>
 									<integer>0</integer>
 									<integer>2</integer>
 									<integer>0</integer>
@@ -935,8 +935,6 @@
 								<string>Piece.ccb</string>
 							</dict>
 						</array>
-						<key>selected</key>
-						<true/>
 						<key>seqExpanded</key>
 						<true/>
 					</dict>
@@ -967,7 +965,7 @@
 						<key>value</key>
 						<array>
 							<real>0.5</real>
-							<real>28</real>
+							<real>143</real>
 							<integer>0</integer>
 							<integer>2</integer>
 							<integer>0</integer>
@@ -1047,7 +1045,7 @@
 						<key>value</key>
 						<array>
 							<real>0.5</real>
-							<real>0.0</real>
+							<real>115</real>
 							<integer>0</integer>
 							<integer>2</integer>
 							<integer>0</integer>
@@ -1075,6 +1073,8 @@
 						<string>Character.ccb</string>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -3605,7 +3605,7 @@
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>0.0</real>
+			<real>1.5666667222976685</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>
