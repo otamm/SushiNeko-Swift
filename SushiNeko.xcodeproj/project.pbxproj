@@ -64,6 +64,7 @@
 		927F61BB196C771E000F43EF /* iPad-old.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5907188484E7003F4D28 /* iPad-old.png */; };
 		AA9862781B43A6FF0042BE2C /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9862771B43A6FF0042BE2C /* Character.swift */; };
 		AA98627E1B43A70C0042BE2C /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA98627D1B43A70C0042BE2C /* Piece.swift */; };
+		AA9862801B4491EA0042BE2C /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA98627F1B4491E90042BE2C /* GameOver.swift */; };
 		B71F5911188484E7003F4D28 /* iPad-old.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5907188484E7003F4D28 /* iPad-old.png */; };
 		B71F5912188484E7003F4D28 /* iPad-old@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5908188484E7003F4D28 /* iPad-old@2x.png */; };
 		B71F5913188484E7003F4D28 /* iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5909188484E7003F4D28 /* iPad.png */; };
@@ -177,6 +178,7 @@
 		927F61BF196C771E000F43EF /* SushiNeko Android.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SushiNeko Android.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA9862771B43A6FF0042BE2C /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		AA98627D1B43A70C0042BE2C /* Piece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
+		AA98627F1B4491E90042BE2C /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		B71F5907188484E7003F4D28 /* iPad-old.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old.png"; path = "Icons/iPad-old.png"; sourceTree = "<group>"; };
 		B71F5908188484E7003F4D28 /* iPad-old@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old@2x.png"; path = "Icons/iPad-old@2x.png"; sourceTree = "<group>"; };
 		B71F5909188484E7003F4D28 /* iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iPad.png; path = Icons/iPad.png; sourceTree = "<group>"; };
@@ -441,6 +443,7 @@
 				7A40362019DDEF0D007B6E8F /* Platforms */,
 				7A046D7519E84C36004C4763 /* MainScene.swift */,
 				AA9862771B43A6FF0042BE2C /* Character.swift */,
+				AA98627F1B4491E90042BE2C /* GameOver.swift */,
 				AA98627D1B43A70C0042BE2C /* Piece.swift */,
 				D352B48019EC608A00829775 /* MetalShaders */,
 			);
@@ -821,6 +824,7 @@
 				B73789871807631A0076A88C /* main.m in Sources */,
 				7A046D7919E84ED5004C4763 /* MainScene.swift in Sources */,
 				AA98627E1B43A70C0042BE2C /* Piece.swift in Sources */,
+				AA9862801B4491EA0042BE2C /* GameOver.swift in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
 				AA9862781B43A6FF0042BE2C /* Character.swift in Sources */,
 			);

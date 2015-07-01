@@ -184,7 +184,11 @@ class MainScene: CCNode {
     // puts necessary changes to state in effect when game is over.
     func triggerGameOver() {
         self.gameState = .GameOver;
-        self.restartButton.visible = true;
+        //self.restartButton.visible = true; restart button will be visible within gameOverScreen
+        
+        var gameOverScreen = CCBReader.load("GameOver", owner: self) as! GameOver;
+        gameOverScreen.score = score;
+        self.addChild(gameOverScreen);
     }
     
     // moves from the title to the actual game
