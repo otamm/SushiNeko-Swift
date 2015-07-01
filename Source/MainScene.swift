@@ -1,9 +1,14 @@
 import Foundation;
 
 
-
+// side of the screen being tapped OR side of the screen where chopstick will be randomly positioned
 enum Side {
-    case Left, Right, None
+    case Left, Right, None;
+}
+
+// represents possible game states
+enum GameState {
+    case Title, Ready, Playing, GameOver;
 }
 
 class MainScene: CCNode {
@@ -19,7 +24,10 @@ class MainScene: CCNode {
     var pieceIndex = 0;
     
     // tracks if game is over, makes restart button visible.
-    var gameOver = false;
+    //var gameOver = false;
+    
+    // substitutes (and adds to) gameOver variable since the gameState will serve to signalize a gameOver also. Initially set to title.
+    var gameState:GameState = .Title;
     
     // keeps track of time left for user to make a move. Must gradually increase the decreasing speed.
     var timeLeft: Float = 5 {
@@ -81,7 +89,7 @@ class MainScene: CCNode {
     
     // executed at every frame, updates time and checks if time has ran out
     override func update(delta: CCTime) {
-        if (self.gameOver) { return; };
+        if (self.gameState != .Playing) { return; };
         self.timeLeft -= Float(delta)
         if (self.timeLeft == 0) { // safe to check for 0 equality after clamping
             self.triggerGameOver();
@@ -92,7 +100,7 @@ class MainScene: CCNode {
     
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
         // executed when, after cutting the sushi tree, a chopstick piece touches the player on the same side.
-        if (self.isGameOver()) { return; };
+        if (self.gameState == .GameOver) { return; };
         if (touch.locationInWorld().x < (CCDirector.sharedDirector().viewSize().width / 2)) {
             self.character.left();
         } else {
@@ -133,12 +141,12 @@ class MainScene: CCNode {
             self.triggerGameOver();
         }
         
-        return gameOver;
+        return self.gameState == .GameOver;
     }
     
     // puts necessary changes to state in effect when game is over.
     func triggerGameOver() {
-        self.gameOver = true;
+        self.gameState = .GameOver;
         self.restartButton.visible = true;
     }
 }
