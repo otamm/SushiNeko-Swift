@@ -40,6 +40,9 @@ class MainScene: CCNode {
     // keeps track of score.
     var score = 0;
     
+    // gets position of current piece instance being animated
+    var addPiecesPosition: CGPoint?;
+    
     
     /* code connections; variables must have 'weak' before being declared because they are only pointing to a reference of the object, not storing the actual data. */
     
@@ -58,10 +61,18 @@ class MainScene: CCNode {
     // displays score
     weak var scoreLabel:CCLabelTTF!;
     
+    // content node for 'left' and 'right' buttons
+    weak var tapButtons:CCNode!;
     /** methods **/
     
     
     /* cocos2d methods */
+    
+    // when a SpriteBuilder object is created, order of method calls is init(), didLoadFromCCB() and finally onEnter().
+    override func onEnter() {
+        super.onEnter();
+        self.addPiecesPosition = self.piecesNode.positionInPoints;
+    }
     
     // sets up MainScene, executed first
     func didLoadFromCCB() {
@@ -81,10 +92,20 @@ class MainScene: CCNode {
         self.userInteractionEnabled = true;
     }
     
-    // executed once restartButton is touched.
+    // executed once restartButton is touched. Does not make sense to go all over again trigering all the 'start' animations, so it sets the gameState to .Ready
     func restart() {
-        var scene = CCBReader.loadAsScene("MainScene")
-        CCDirector.sharedDirector().presentScene(scene)
+        //var scene = CCBReader.loadAsScene("MainScene")
+        //CCDirector.sharedDirector().presentScene(scene)
+        // updated functionality to load game from .Ready state:
+        var mainScene = CCBReader.load("MainScene") as! MainScene;
+        mainScene.ready(); // equivalent to pressing the 'ready' button at the title.
+        
+        var scene = CCScene();
+        scene.addChild(mainScene);
+        
+        var transition = CCTransition(fadeWithDuration: 0.3);
+        
+        CCDirector.sharedDirector().presentScene(scene, withTransition: transition);
     }
     
     // executed at every frame, updates time and checks if time has ran out
@@ -96,11 +117,22 @@ class MainScene: CCNode {
         }
     }
     
+    // called by 'play' button on .Title state of MainScene; updates game state, runs sequence of animations and then fades in buttons (enables their opacity, checks to 0 and gradually increases it to 1 in an interval of 0.2 second)
+    func ready() {
+        self.gameState = .Ready;
+        self.animationManager.runAnimationsForSequenceNamed("Ready");
+        
+        self.tapButtons.cascadeOpacityEnabled = true; // if set to false, cascade opacity changes are not passed to child nodes.
+        self.tapButtons.opacity = 0.0;
+        self.tapButtons.runAction(CCActionFadeIn(duration: 0.2));
+    }
+    
     /* iOS methods */
     
     override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
         // executed when, after cutting the sushi tree, a chopstick piece touches the player on the same side.
-        if (self.gameState == .GameOver) { return; };
+        if (self.gameState == .GameOver || gameState == .Title) { return; };
+        if (self.gameState == .Ready) { self.start(); }
         if (touch.locationInWorld().x < (CCDirector.sharedDirector().viewSize().width / 2)) {
             self.character.left();
         } else {
@@ -108,6 +140,7 @@ class MainScene: CCNode {
         }
         // executed when, after cutting the sushi tree, a chopstick piece touches the player who has just moved to the opposite side.
         if (self.isGameOver()) { return; }; // returns Void, interrupting the method execution.
+        self.character.tap(); // triggers 'scratch' sequence
         self.stepTower();
     }
     
@@ -116,6 +149,7 @@ class MainScene: CCNode {
     // moves current piece to top of the tower, increments its zIndex by 1, randomizes its chopsticks and moves 'piecesNode' down by the size of a piece.
     func stepTower() {
         var piece = self.pieces[self.pieceIndex];
+        self.addHitPiece(piece.side);
         var yDiff = piece.contentSize.height * 10;
         
         piece.position = ccpAdd(piece.position, CGPoint(x: 0, y: yDiff));
@@ -124,8 +158,11 @@ class MainScene: CCNode {
         
         self.pieceLastSide = piece.setObstacle(pieceLastSide);
         
-        self.piecesNode.position = ccpSub(self.piecesNode.position,
-            CGPoint(x: 0, y: piece.contentSize.height));
+        //self.piecesNode.position = ccpSub(self.piecesNode.position,
+        //    CGPoint(x: 0, y: piece.contentSize.height));
+        var movePiecesDown = CCActionMoveBy(duration: 0.15, position: CGPoint(x: 0, y: -piece.contentSize.height));
+        
+        self.piecesNode.runAction(movePiecesDown);
         
         self.pieceIndex = (pieceIndex + 1) % 10; // modulo pieces.count
         self.timeLeft += 0.25; // adds to time remaining until gameOver
@@ -148,5 +185,24 @@ class MainScene: CCNode {
     func triggerGameOver() {
         self.gameState = .GameOver;
         self.restartButton.visible = true;
+    }
+    
+    // moves from the title to the actual game
+    func start() {
+        self.gameState = .Playing;
+        self.tapButtons.runAction(CCActionFadeOut(duration: 0.2));
+    }
+    
+    // loads a new piece, runs the correct animation and then loads it to the scene.
+    func addHitPiece(obstacleSide: Side) {
+        var flyingPiece = CCBReader.load("Piece") as! Piece;
+        flyingPiece.position = addPiecesPosition!;
+        
+        var animationName = (self.character.side == .Left ? "FromLeft" : "FromRight");
+        
+        flyingPiece.animationManager.runAnimationsForSequenceNamed(animationName);
+        flyingPiece.side = obstacleSide;
+        
+        self.addChild(flyingPiece);
     }
 }

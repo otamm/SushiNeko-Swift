@@ -31,4 +31,10 @@ class Character:CCSprite {
         self.side = .Right;
         self.scaleX = -1;
     }
+    
+    /* custom methods */
+    
+    func tap() {
+        self.animationManager.runAnimationsForSequenceNamed("Tap");
+    }
 }
